@@ -1,0 +1,9 @@
+{
+  "name": "Replace-Video-Player",
+  "version": "0.0.1",
+  "description": "Userscript that can replace the default video player to custom in HTML5",
+  "main": "src/index.js",
+  "author": "tonakihan",
+  "license": "MIT",
+  "private": false
+}
