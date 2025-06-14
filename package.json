@@ -1,9 +1,17 @@
 {
-  "name": "Replace-Video-Player",
+  "name": "replace-video-player",
   "version": "0.0.1",
   "description": "Userscript that can replace the default video player to custom in HTML5",
   "main": "src/index.js",
   "author": "tonakihan",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "server": "http-server ./build -p 4000"
+  }
 }
