@@ -7,19 +7,29 @@
 // @match        http*://**/*
 // @exclude      http*://*youtube.com/*
 // @exclude      http*://music.yandex.ru/*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @icon         https://img.icons8.com/?size=100&id=h1ELI6ISswGD&format=png&color=000000
 // @require      http://localhost:4000/BuildinPlayer.js
+// @require      http://localhost:4000/utils.js
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
 "use strict";
 
-const config = {
-  /*
-    For ovserver. Count of run this script after launch. It script
-    will triggered when changed body of the HTML document.
+const config: IConfig = {
+  /**
+    For observer. Limit count of run this script after launch. It script
+    will triggered when changed body of the HTML document. You can set as Infinity.
   */
-  countRun: 10,
+  limit_count_run: 10,
+  /**
+    For observer. Value in ms.
+  */
+  delay_between_exec: 1000,
+  /**
+    Your set player wich used instad of build-in player on site.
+    Avaleble next value: default.
+  */
+  player: "default",
 };
 //
 main().catch((e) => console.log(e));
@@ -27,52 +37,72 @@ main().catch((e) => console.log(e));
 async function main() {
   console.info("Launch userscript RVP");
 
-  console.debug("main: window:\n", window);
+  /*
+    userscript, а именно tampermonkey запускает автоматом и в iframes.
+    Так, что реализация для iframes не требуется.
+  */
 
-  // TODO: сделать задержку (отложенное выполнение), что бы не грузить браузер
+  replaceVideoPlayer();
+
   // Это нужно для хитрых - когда видео добавляется из скрипта.
-  let countRun = config.countRun || 10;
+  let limitCountRun = config.limit_count_run || 10;
   const observer = new MutationObserver(() => {
-    console.debug("observer is triggered");
-    replaceVideoPlayer();
+    //console.debug("observer is triggered");
 
-    countRun--;
-    if (countRun <= 0) {
-      console.debug("observer was disconnected");
-      observer.disconnect();
-    }
+    setTimeoutWithIgnore(() => {
+      console.debug("Exec observer after timeout");
+      replaceVideoPlayer();
+
+      limitCountRun--;
+      if (limitCountRun <= 0) {
+        console.debug("observer was disconnected");
+        observer.disconnect();
+      }
+    }, config.delay_between_exec);
   });
 
   observer.observe(document.body, {
     subtree: true,
     childList: true,
   });
-
-  /*
-    userscript, а именно tampermonkey запускает автоматом и в iframes.
-    Так, что реализация для iframes не требуется.
-  */
-  replaceVideoPlayer();
 }
 
 function replaceVideoPlayer() {
-  console.debug("replaceVideoPlayer: DOCUMENT.body:\n", document.body);
+  console.debug("replaceVideoPlayer: into DOCUMENT.body:\n", document.body);
   //console.debug("replaceVideoPlayer: HTML of body:\n", document.body.innerHTML);
 
   for (let video of document.getElementsByTagName("video")) {
+    // TODO: Научиться определять самого себя, что бы не стрелять в ногу
     // TODO: if used stock in browser contol panel
     let stockPlayer = BuildinPlayer.findWrapperPlayer(video);
 
     // DEBUG
     // For a visual accent, the video elements are handled.
     //video.style.border = "10px solid CornflowerBlue";
-    console.debug(
+    /*console.debug(
       "replaceVideoPlayer: foundPlayer:\n",
       stockPlayer,
-      "\n video:\n",
+      "\nvideo:\n",
       video,
-    );
+    );*/
 
-    //TODO: Cut the stockPlayer and insert my player
+    if (stockPlayer) {
+      // Replace with config.player
+      console.info("Replace player with", config.player);
+      switch (config.player.toLowerCase()) {
+        case "default":
+          video.remove();
+          let emptyEl = document.createElement("div");
+          stockPlayer.replaceWith(emptyEl);
+          emptyEl.replaceWith(video);
+          video.controls = true;
+          break;
+
+        default:
+          console.error("Not found instructions for player as", config.player);
+      }
+    } else {
+      console.info("Not found player. Nothing to do.");
+    }
   }
 }
