@@ -11,7 +11,8 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "build": "tsc; cat build/index.user.js | wl-copy",
+    "build": "tsc; sed -i 's|http://localhost:4000|https://github.com/tonakihan/RVP/build|g' build/index.user.js",
+    "dev-build": "tsc; cat build/index.user.js | wl-copy",
     "server": "http-server ./build -p 4000"
   }
 }
