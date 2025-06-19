@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name         Replace-Video-Player
+// @name         RVP
+// @source       https://github.com/tonakihan/RVP
 // @namespace    http://tampermonkey.net/
 // @version      Alpha-v2
 // @description  Can replace the default video player to custom in HTML5
@@ -95,6 +96,10 @@ function replaceVideoPlayer() {
       console.info("Replace player with", config.player);
       // Marks the video as processed
       video.dataset.RVP_status = "processed";
+      // Fix style
+      video.style.width = "100%";
+      video.style.height = "100%";
+
       switch (config.player.toLowerCase()) {
         case "default":
           video.remove();
