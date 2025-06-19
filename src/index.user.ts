@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Replace-Video-Player
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v1
+// @version      Alpha-v2
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
@@ -72,7 +72,11 @@ function replaceVideoPlayer() {
   //console.debug("replaceVideoPlayer: HTML of body:\n", document.body.innerHTML);
 
   for (let video of document.getElementsByTagName("video")) {
-    // TODO: Научиться определять самого себя, что бы не стрелять в ногу
+    if (video.dataset.RVP_status === "processed") {
+      console.info("Exit. Video marked as processed.");
+      return;
+    }
+
     // TODO: if used stock in browser contol panel
     let stockPlayer = BuildinPlayer.findWrapperPlayer(video);
 
@@ -89,6 +93,8 @@ function replaceVideoPlayer() {
     if (stockPlayer) {
       // Replace with config.player
       console.info("Replace player with", config.player);
+      // Marks the video as processed
+      video.dataset.RVP_status = "processed";
       switch (config.player.toLowerCase()) {
         case "default":
           video.remove();

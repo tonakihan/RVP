@@ -40,18 +40,12 @@ and insert it into your [tampermonkey](https://www.tampermonkey.net/)
 cat build/index.user.js | wl-copy
 ```
 
-Save the script in tampermonkey and **visit any site**
-(excluding specific sites listed in the `@exclude` line)
-to load the script's dependencies from the local server.
+Save the script in tampermonkey.
 
 3. Ending
 
-After completing the above steps, you can disable the local server
-by pressing `Ctrl+C` and delete the directory with the source code.
-```sh
-cd ..
-rm -R RVP
-```
+After completing the above steps, you should always use a browser
+with a script that runs a local server, which should be kept running.
 
 ## Developing
 ```sh
