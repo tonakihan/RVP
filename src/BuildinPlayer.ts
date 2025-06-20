@@ -7,6 +7,13 @@ const BuildinPlayer = {
     byId() {
       let player = document.getElementById("player");
 
+      if (player?.nodeName === "VIDEO") {
+        console.info(
+          "Detect element with id=player but this is a video element",
+        );
+        return null;
+      }
+
       if (player) console.info("Detect element with id=player");
       return player;
     },
@@ -18,8 +25,8 @@ const BuildinPlayer = {
     byId(node) {
       //console.debug("Input byId:\n", node, "\nnode.id:\n", node.id);
 
-      if (node.id === "player") {
-        console.info("Detect element with id=player");
+      if (node.id.toLowerCase().includes("player")) {
+        console.info("Detect the element with an id that contains a 'player'");
         return true;
       }
 
@@ -27,18 +34,24 @@ const BuildinPlayer = {
     },
   } as { [key: string]: (arg0: HTMLElement) => boolean },
 
+  // TODO: Переписать - сделать цикл в котором при нахождении элемента -
+  // результат сохраняется и ищется дальше, если нет. То возвращается То
+  // что нарыли
   /** Returned a player of the video element if is has. */
   findWrapperPlayer(video: HTMLVideoElement): HTMLElement | null {
     let crrNode = video.parentNode! as HTMLElement;
+    let expectedPlayer;
     while (crrNode.nodeName != "BODY") {
       if (this._isThirdPartyPlayer(crrNode)) {
-        //console.info("Found player");
-        return crrNode;
+        expectedPlayer = crrNode;
       }
 
       crrNode = crrNode.parentNode! as HTMLElement;
     }
 
+    if (expectedPlayer) {
+      return expectedPlayer;
+    }
     console.info("Not found third party player");
     return null;
   },

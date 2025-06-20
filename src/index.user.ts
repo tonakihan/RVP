@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         RVP
-// @source       https://github.com/tonakihan/RVP
+// @source       http://localhost:4000/
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v2
+// @version      Alpha-v3
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
 // @exclude      http*://*youtube.com/*
 // @exclude      http*://music.yandex.ru/*
+// @exclude      http*://rutube.ru/*
 // @icon         https://img.icons8.com/?size=100&id=h1ELI6ISswGD&format=png&color=000000
 // @require      http://localhost:4000/BuildinPlayer.js
 // @require      http://localhost:4000/utils.js

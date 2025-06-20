@@ -1,7 +1,7 @@
 # Replace Video Player
 
 ## How to use
-Currently, the only option is to [build from source](#build-from-source-(on-linux)).
+Currently, the only option is to [build from source](#build-from-source-on-linux).
 
 ## Paths for specific sites
 We also have paths for specific sites. These are used if
@@ -10,7 +10,7 @@ find your site's path in the `paths for specific sites` folder.
 
 For install
 - Follow your script (on Github)
-- click the `RAW` button (you can find it by using `Ctrl+F` in your browser)
+- click the `Raw` button (you can find it by using `Ctrl+F` in your browser)
 
 ## Build from source (on linux)
 0. Clone this repo
@@ -36,26 +36,26 @@ npm run server
 Now you can copy the contents of the `build/index.user.js` file
 and insert it into your [tampermonkey](https://www.tampermonkey.net/)
 ```sh
-# On Wayland Linux systems, you can run the following command to copy the script to your clipboard:
-cat build/index.user.js | wl-copy
+# Or on Linux systems, you can run the following command to isntall the script to your browser:
+yarn dev-install
 ```
 
 Save the script in tampermonkey.
 
 3. Ending
 
-After completing the above steps, you should always use a browser
-with a script that runs a local server, which should be kept running.
+Use a browser with a script that depends on the local server from the previous
+steps, keeping it running.
 
 ## Developing
 ```sh
 npm i -D
 npm run dev-build
 npm run server
+npm run dev-install
 ```
-Copy `build/index.user.js` into [tampermonkey](https://www.tampermonkey.net/)
-(On Wayland Linux, the script will be automatically copied to your clipboard
-during the 'dev-build' process). The server will be available at `localhost:4000`.
+Copy (or install with script `dev-build`) `build/index.user.js` into
+[tampermonkey](https://www.tampermonkey.net/). The server will be available at `localhost:4000`.
 
 ---
 ## TODO

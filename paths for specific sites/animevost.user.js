@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name         RVP-path-animevost
+// @name         RVP path: animevost
+// @source       https://github.com/tonakihan/RVP/tree/main/paths%20for%20specific%20sites/animevost.user.js
 // @namespace    http://tampermonkey.net/
 // @version      0.0.1
 // @description  Path for RVP for site animevost.org

@@ -12,7 +12,8 @@
   },
   "scripts": {
     "build": "tsc; sed -i 's|http://localhost:4000|https://github.com/tonakihan/RVP/build|g' build/index.user.js",
-    "dev-build": "tsc; cat build/index.user.js | wl-copy",
+    "dev-build": "tsc",
+    "dev-install": "xdg-open file:./build/index.user.js",
     "server": "http-server ./build -p 4000"
   }
 }
