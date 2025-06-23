@@ -34,9 +34,6 @@ const BuildinPlayer = {
     },
   } as { [key: string]: (arg0: HTMLElement) => boolean },
 
-  // TODO: Переписать - сделать цикл в котором при нахождении элемента -
-  // результат сохраняется и ищется дальше, если нет. То возвращается То
-  // что нарыли
   /** Returned a player of the video element if is has. */
   findWrapperPlayer(video: HTMLVideoElement): HTMLElement | null {
     let crrNode = video.parentNode! as HTMLElement;
