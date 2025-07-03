@@ -66,3 +66,6 @@ Copy (or install with script `dev-build`) `build/index.user.js` into
 - [ ] Подумать о тестах
 - [ ] Github action (automatic build)
 - [ ] Use realises
+---
+- [ ] Fix steam (should capture element with id="")
+      Возможно нужно проверять на child elements... img? Или с помощью width

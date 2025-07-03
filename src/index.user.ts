@@ -2,7 +2,7 @@
 // @name         RVP
 // @source       http://localhost:4000/
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v3
+// @version      Alpha-v4
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
@@ -12,6 +12,8 @@
 // @icon         https://img.icons8.com/?size=100&id=h1ELI6ISswGD&format=png&color=000000
 // @require      http://localhost:4000/BuildinPlayer.js
 // @require      http://localhost:4000/utils.js
+// @require      http://localhost:4000/players/init.js
+// @connect      localhost
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -95,26 +97,23 @@ function replaceVideoPlayer() {
     if (stockPlayer) {
       // Replace with config.player
       console.info("Replace player with", config.player);
-      // Marks the video as processed
-      video.dataset.RVP_status = "processed";
-      // Fix style
-      video.style.width = "100%";
-      video.style.height = "100%";
 
-      switch (config.player.toLowerCase()) {
-        case "default":
-          video.remove();
-          let emptyEl = document.createElement("div");
-          stockPlayer.replaceWith(emptyEl);
-          emptyEl.replaceWith(video);
-          video.controls = true;
-          break;
-
-        default:
-          console.error("Not found instructions for player as", config.player);
+      // FIXME: Как то обработать blob
+      /* [default, CVP] the players supprted blob link that they don't create a new video element */
+      if (isBlobSource(video.src) && config.player !== "default") {
+        confirm(
+          "Detected Blob source. Use a 'default' player or keep the built-in one?",
+        ) && getPlayer("default").then((func) => func(video, stockPlayer));
+        return;
       }
+
+      getPlayer(config.player).then((func) => func(video, stockPlayer));
     } else {
       console.info("Not found player. Nothing to do.");
     }
   }
+}
+
+function isBlobSource(link: string): boolean {
+  return link.startsWith("blob:");
 }

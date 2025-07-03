@@ -16,3 +16,10 @@ function setTimeoutWithIgnore(callback: Function, delay: number): boolean {
 
   return true;
 }
+
+function replaceToUpperElement(element: HTMLElement, destination: HTMLElement) {
+  element.remove();
+  let empty = document.createElement("div");
+  destination.replaceWith(empty);
+  empty.replaceWith(element);
+}
