@@ -2,7 +2,7 @@
 // @name         RVP
 // @source       http://localhost:4000/
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v4
+// @version      Alpha-v5
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
@@ -34,6 +34,17 @@ const config: IConfig = {
     Avaleble next value: default.
   */
   player: "default",
+
+  /**
+    Not for manualy change. This config set a behavior code.
+  */
+  _setting: {
+    BuildinPlayer: {
+      /** Apply value in percent. Not recomended for change. TODO... */
+      diffWidth: 5,
+      diffHeight: 5,
+    },
+  },
 };
 //
 main().catch((e) => console.log(e));

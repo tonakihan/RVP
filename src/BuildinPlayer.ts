@@ -1,9 +1,15 @@
+/** For BuildinPlayer.MethodsNodeIsThirtPartyPlayer */
+type _TParamsMNITPP = {
+  node: HTMLElement;
+  video: HTMLVideoElement;
+};
+
 const BuildinPlayer = {
   // WARN: Не используется
   /** Methods should find in DOM element by properties.
     Each method in the object should return a DOM element
     if it exist otherwise null. */
-  MethodsForDetectionThirdPartyPlayer: {
+  MethodsGetThirdPartyPlayer: {
     byId() {
       let player = document.getElementById("player");
 
@@ -22,7 +28,32 @@ const BuildinPlayer = {
   /** Methods checked the DOM node is player or not.
     Each method in the object should return a boolean value. */
   MethodsNodeIsThirtPartyPlayer: {
-    byId(node) {
+    bySize({ node, video }) {
+      if (node.tagName == "VIDEO") {
+        console.log("Entering element is video.");
+        return true;
+      }
+
+      let coordinatesNode = node.getBoundingClientRect();
+      let coordinatesVideo = video.getBoundingClientRect();
+
+      const widthAccuracy =
+        (video.offsetWidth / 100) * config._setting.BuildinPlayer.diffWidth;
+      const heightAccuracy =
+        (video.offsetHeight / 100) * config._setting.BuildinPlayer.diffWidth;
+      if (
+        coordinatesVideo.top - coordinatesNode.top <= heightAccuracy &&
+        coordinatesNode.bottom - coordinatesVideo.bottom <= heightAccuracy &&
+        coordinatesVideo.left - coordinatesNode.left <= widthAccuracy &&
+        coordinatesNode.right - coordinatesVideo.right <= widthAccuracy
+      ) {
+        console.log("Element 'player' detected by same size as video");
+        return true;
+      }
+
+      return false;
+    },
+    byId({ node }) {
       //console.debug("Input byId:\n", node, "\nnode.id:\n", node.id);
 
       if (node.id.toLowerCase().includes("player")) {
@@ -32,14 +63,16 @@ const BuildinPlayer = {
 
       return false;
     },
-  } as { [key: string]: (arg0: HTMLElement) => boolean },
+  } as {
+    [key: string]: (arg0: _TParamsMNITPP) => boolean;
+  },
 
   /** Returned a player of the video element if is has. */
   findWrapperPlayer(video: HTMLVideoElement): HTMLElement | null {
     let crrNode = video.parentNode! as HTMLElement;
     let expectedPlayer;
     while (crrNode.nodeName != "BODY") {
-      if (this._isThirdPartyPlayer(crrNode)) {
+      if (this._isThirdPartyPlayer({ node: crrNode, video })) {
         expectedPlayer = crrNode;
       }
 
@@ -54,13 +87,45 @@ const BuildinPlayer = {
   },
 
   /** Returned boolean value. Checked if the element is match a property of player. */
-  _isThirdPartyPlayer(node: HTMLElement): boolean {
+  _isThirdPartyPlayer(params: _TParamsMNITPP): boolean {
     const listNameMethods = Object.getOwnPropertyNames(
       this.MethodsNodeIsThirtPartyPlayer,
     );
 
     for (let method of listNameMethods) {
-      if (this.MethodsNodeIsThirtPartyPlayer[method](node)) {
+      if (this.MethodsNodeIsThirtPartyPlayer[method](params)) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  /** Returned true if in element was detect another content as
+  example - image */
+  // TODO: Не используется. Удалить
+  _checkOnAnotherContent(node: HTMLElement): boolean {
+    // List of tags where may be contains another content
+    const match = [
+      "video",
+      "img",
+      "p",
+      "svg",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+    ];
+
+    for (const tagName of match) {
+      const listNodes = node.getElementsByTagName(tagName);
+
+      if (tagName == "video" && listNodes.length > 1) {
+        console.debug("Detect another content in", listNodes);
+        return true;
+      } else if (tagName != "video" && listNodes.length > 0) {
+        console.debug("Detect another content in", listNodes);
         return true;
       }
     }
