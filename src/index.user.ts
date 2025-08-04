@@ -2,7 +2,7 @@
 // @name         RVP
 // @source       http://localhost:4000/
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v5
+// @version      Alpha-v6
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
@@ -12,7 +12,7 @@
 // @icon         https://img.icons8.com/?size=100&id=h1ELI6ISswGD&format=png&color=000000
 // @require      http://localhost:4000/BuildinPlayer.js
 // @require      http://localhost:4000/utils.js
-// @require      http://localhost:4000/players/init.js
+// @require      http://localhost:4000/player.js
 // @connect      localhost
 // @grant        none
 // @run-at       document-end
@@ -114,11 +114,16 @@ function replaceVideoPlayer() {
       if (isBlobSource(video.src) && config.player !== "default") {
         confirm(
           "Detected Blob source. Use a 'default' player or keep the built-in one?",
-        ) && getPlayer("default").then((func) => func(video, stockPlayer));
+        ) && players.get("default")!(video, stockPlayer, {});
         return;
       }
 
-      getPlayer(config.player).then((func) => func(video, stockPlayer));
+      try {
+        players.get(config.player)!(video, stockPlayer, {});
+      } catch {
+        alert(`Can't get or launch the player ${config.player}`);
+        throw new Error(`Can't get or launch the player ${config.player}`);
+      }
     } else {
       console.info("Not found player. Nothing to do.");
     }
