@@ -3,6 +3,16 @@
 ## How to use
 Currently, the only option is to [build from source](#build-from-source-on-linux).
 
+## Configuration
+In `index.user.js`, you will be able to access the variable `config` at the beginning of the script.
+
+### Available players
+| Player | description |
+|--------|-------------|
+| `default` | Build-in player in your browser |
+| <a href="https://github.com/shiyiya/oplayer">`OPlayer`</a> | <a href="https://github.com/tonakihan/RVP-player-OPlayer">Userscript</a> |
+
+
 ## Paths for specific sites
 We also have paths for specific sites. These are used if
 you encounter visual bugs after applying RVP. You can
@@ -69,3 +79,4 @@ Copy (or install with script `dev-build`) `build/index.user.js` into
 - [ ] Выносим players в отдельный скрипт
 ---
 - [ ] Fix 'allplay' player - don't work video.
+- [ ] Fix steam

@@ -11,7 +11,7 @@ interface IConfig {
   /**
     Your set player wich used instad of build-in player on site.
   */
-  player: "default";
+  player: "default" | "OPlayer";
   /** Not for manualy change. This config set a behavior the code. */
   _setting: {
     /** The list parametrs which used in BuildinPlayer.ts */
