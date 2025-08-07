@@ -1,7 +1,8 @@
 # Replace Video Player
 
-## How to use
-Currently, the only option is to [build from source](#build-from-source-on-linux).
+## Install
+[Install the 'RVP' userscript](https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/index.user.js)  
+P.S. Needed [tampermonkey](https://www.tampermonkey.net/)
 
 ## Configuration
 In `index.user.js`, you will be able to access the variable `config` at the beginning of the script.
@@ -10,7 +11,7 @@ In `index.user.js`, you will be able to access the variable `config` at the begi
 | Player | description |
 |--------|-------------|
 | `default` | Build-in player in your browser |
-| <a href="https://github.com/shiyiya/oplayer">`OPlayer`</a> | <a href="https://github.com/tonakihan/RVP-player-OPlayer">Userscript</a> |
+| [`OPlayer`](https://github.com/shiyiya/oplayer) | <a href="https://github.com/tonakihan/RVP-player-OPlayer">Userscript</a> |
 
 
 ## Paths for specific sites
@@ -22,7 +23,7 @@ For install
 - Follow your script (on Github)
 - click the `Raw` button (you can find it by using `Ctrl+F` in your browser)
 
-## Build from source (on linux)
+## Build from source (on linux & locale server)
 0. Clone this repo
 ```sh
 git clone --depth=1 https://github.com/tonakihan/RVP
@@ -70,13 +71,12 @@ Copy (or install with script `dev-build`) `build/index.user.js` into
 ---
 ## TODO
 - [x] Замену только на default browser
-- [ ] На CVP
 - [x] Обработать только один video
 - [x] Множество video
 - [ ] Подумать о тестах
-- [ ] Github action (automatic build)
-- [ ] Use realises
-- [ ] Выносим players в отдельный скрипт
+- [x] Github action (automatic build)
+- [x] Выносим players в отдельный скрипт
 ---
 - [ ] Fix 'allplay' player - don't work video.
 - [ ] Fix steam
+- [ ] shadow root
