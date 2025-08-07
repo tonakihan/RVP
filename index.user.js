@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         RVP
-// @source       https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/main/dist/
+// @homepage     https://github.com/tonakihan/RVP
+// @source       https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v6
+// @version      1.0
 // @description  Can replace the default video player to custom in HTML5
 // @author       tonakihan
 // @match        http*://**/*
@@ -10,9 +11,9 @@
 // @exclude      http*://music.yandex.ru/*
 // @exclude      http*://rutube.ru/*
 // @icon         https://img.icons8.com/?size=100&id=h1ELI6ISswGD&format=png&color=000000
-// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/main/dist/BuildinPlayer.js
-// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/main/dist/utils.js
-// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/main/dist/player.js
+// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/BuildinPlayer.js
+// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/utils.js
+// @require      https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/player.js
 // @connect      localhost
 // @grant        none
 // @run-at       document-end
