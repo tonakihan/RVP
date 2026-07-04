@@ -1,0 +1,13 @@
+- [x] Замену только на default browser
+- [x] Обработать только один video
+- [x] Множество video
+- [ ] Подумать о тестах
+- [x] Github action (automatic build)
+- [x] Выносим players в отдельный скрипт
+---
+- [ ] Перепесать в ООП
+  - [ ] Добавить брокер-декоратор
+---
+- [ ] Fix 'allplay' player - don't work video.
+- [ ] Fix steam
+- [ ] shadow root

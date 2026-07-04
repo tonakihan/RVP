@@ -81,13 +81,13 @@ async function main() {
   });
 }
 
-function replaceVideoPlayer() {
-  console.debug("replaceVideoPlayer: into DOCUMENT.body:\n", document.body);
+async function replaceVideoPlayer() {
+  //console.debug("replaceVideoPlayer: into DOCUMENT.body:\n", document.body);
   //console.debug("replaceVideoPlayer: HTML of body:\n", document.body.innerHTML);
 
   for (let video of document.getElementsByTagName("video")) {
     if (video.dataset.RVP_status === "processed") {
-      console.info("Exit. Video marked as processed.");
+      console.info("Exit. The video marked as processed.");
       return;
     }
 
@@ -95,7 +95,7 @@ function replaceVideoPlayer() {
     let player = BuildinPlayer.findWrapperPlayer(video);
 
     // DEBUG
-    // For a visual accent, the video elements are handled.
+    // Visual accent the video element are processed
     //video.style.border = "10px solid CornflowerBlue";
     /*console.debug(
       "replaceVideoPlayer: foundPlayer:\n",
@@ -117,9 +117,22 @@ function replaceVideoPlayer() {
 
       // Default case
       try {
-        playerMap.get(config.player)!(video, player, {});
+        const maxAttempts = 5;
+        const delayMs = 200;
+
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+          try {
+            playerMap.get(config.player)!(video, player, {});
+            break; // Success
+          } catch (e) {
+            console.error(e);
+            if (attempt < maxAttempts) {
+              await delay(delayMs);
+            }
+          }
+        }
       } catch {
-        alert(`Can't get or launch the player ${config.player}`);
+        alert(`Can't load the player ${config.player}`);
         throw new Error(`Can't get or launch the player ${config.player}`);
       }
     } else {

@@ -27,3 +27,7 @@ function replaceToUpperElement(element: HTMLElement, destination: HTMLElement) {
 function isBlobSource(link: string): boolean {
   return link.startsWith("blob:");
 }
+
+async function delay(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
