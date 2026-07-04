@@ -23,3 +23,7 @@ function replaceToUpperElement(element: HTMLElement, destination: HTMLElement) {
   destination.replaceWith(empty);
   empty.replaceWith(element);
 }
+
+function isBlobSource(link: string): boolean {
+  return link.startsWith("blob:");
+}

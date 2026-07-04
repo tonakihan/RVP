@@ -105,8 +105,7 @@ function replaceVideoPlayer() {
     );*/
 
     if (player) {
-      // Replace with config.player
-
+      // Blob case
       // FIXME: Как то обработать blob
       /* [default, CVP]: the players supprt 'blob' links because it's useing exist video element */
       if (isBlobSource(video.src) && config.player !== "default") {
@@ -116,6 +115,7 @@ function replaceVideoPlayer() {
         return;
       }
 
+      // Default case
       try {
         playerMap.get(config.player)!(video, player, {});
       } catch {
@@ -126,8 +126,4 @@ function replaceVideoPlayer() {
       console.info("Not found player. Nothing to do.");
     }
   }
-}
-
-function isBlobSource(link: string): boolean {
-  return link.startsWith("blob:");
 }
