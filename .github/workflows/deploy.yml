@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   build:
@@ -12,24 +12,33 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+
       - name: Install dependencies
-        run: npm install -D
+        run: pnpm install --frozen-lockfile
+
       - name: Build files
-        run: npm run build
+        run: pnpm build
+
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
           name: Build
           path: dist
           retention-days: 1
-    
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-    needs: [ build ]
-    steps: 
+    needs: [build]
+    steps:
       - name: Download all the dist
         uses: actions/download-artifact@v4
         with:
@@ -41,4 +50,3 @@ jobs:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./dist
           publish_branch: releases
-          
