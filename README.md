@@ -1,6 +1,8 @@
 # Replace Video Player
 
-![](example.mp4)
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/61d67153-2c6b-46ba-87fe-08f718ce74b2" controls />
+</p>
 
 ## Install
 
