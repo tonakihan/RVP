@@ -22,17 +22,20 @@
 
 const config: IConfig = {
   /**
-    For observer. Limit count of run this script after launch. It script
-    will triggered when changed body of the HTML document. You can set as Infinity.
+    For observer.
+    Limit runs of the script. The script triggered after changing of the document.
+    @example Infinity | 5
   */
-  limit_count_run: 10,
+  retry_limit: 5,
   /**
-    For observer. Value in ms.
+    For observer.
+    Value in ms.
   */
-  delay_between_exec: 1000,
+  retry_delay: 1000,
   /**
-    Your set player wich used instad of build-in player on site.
-    Avaleble next value: default.
+    The player to be use instad of build-in player on site.
+    Install addition player (see README.md).
+    @example "default" | "OPlayer"
   */
   player: "default",
 
@@ -41,40 +44,34 @@ const config: IConfig = {
   */
   _setting: {
     BuildinPlayer: {
-      /** Apply value in percent. Not recomended for change. TODO... */
+      /** Applying the value in percent. Not recomended for change. TODO... */
       diffWidth: 5,
       diffHeight: 5,
     },
   },
 };
 //
-main().catch((e) => console.log(e));
+main();
 
 async function main() {
   console.info("Launch userscript RVP");
 
-  /*
-    userscript, а именно tampermonkey запускает автоматом и в iframes.
-    Так, что реализация для iframes не требуется.
-  */
-
   replaceVideoPlayer();
 
   // Это нужно для хитрых - когда видео добавляется из скрипта.
-  let limitCountRun = config.limit_count_run || 10;
+  let retryLimit = config.retry_limit || 5;
   const observer = new MutationObserver(() => {
     //console.debug("observer is triggered");
-
     setTimeoutWithIgnore(() => {
       console.debug("Exec observer after timeout");
       replaceVideoPlayer();
 
-      limitCountRun--;
-      if (limitCountRun <= 0) {
+      retryLimit--;
+      if (retryLimit <= 0) {
         console.debug("observer was disconnected");
         observer.disconnect();
       }
-    }, config.delay_between_exec);
+    }, config.retry_delay);
   });
 
   observer.observe(document.body, {

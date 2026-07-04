@@ -1,15 +1,18 @@
 interface IConfig {
   /**
-    For observer. Limit count of run this script after launch. It script
-    will triggered when changed body of the HTML document. You can set as Infinity.
+    For observer.
+    Limit runs of the script. The script triggered after changing of the document.
+    @example Infinity | 5
   */
-  limit_count_run: number;
+  retry_limit: number;
   /**
     For observer. Value in ms.
   */
-  delay_between_exec: number;
+  retry_delay: number;
   /**
-    Your set player wich used instad of build-in player on site.
+    The player to be use instad of build-in player on site.
+    Install addition player (see README.md).
+    @example "default" | "OPlayer"
   */
   player: "default" | "OPlayer";
   /** Not for manualy change. This config set a behavior the code. */
