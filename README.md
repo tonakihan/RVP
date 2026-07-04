@@ -1,5 +1,7 @@
 # Replace Video Player
 
+![](example.mp4)
+
 ## Install
 
 [Install the 'RVP' userscript](https://raw.githubusercontent.com/tonakihan/RVP/refs/heads/releases/index.user.js)  
