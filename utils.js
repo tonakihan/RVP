@@ -21,3 +21,9 @@ function replaceToUpperElement(element, destination) {
     destination.replaceWith(empty);
     empty.replaceWith(element);
 }
+function isBlobSource(link) {
+    return link.startsWith("blob:");
+}
+async function delay(ms) {
+    await new Promise((resolve) => setTimeout(resolve, ms));
+}
