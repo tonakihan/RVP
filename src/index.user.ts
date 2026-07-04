@@ -55,6 +55,7 @@ main();
 
 async function main() {
   console.info("Launch userscript RVP");
+  console.log("Configured player: ", config.player);
 
   replaceVideoPlayer();
 
@@ -91,33 +92,32 @@ function replaceVideoPlayer() {
     }
 
     // TODO: if used stock in browser contol panel
-    let stockPlayer = BuildinPlayer.findWrapperPlayer(video);
+    let player = BuildinPlayer.findWrapperPlayer(video);
 
     // DEBUG
     // For a visual accent, the video elements are handled.
     //video.style.border = "10px solid CornflowerBlue";
     /*console.debug(
       "replaceVideoPlayer: foundPlayer:\n",
-      stockPlayer,
+      player,
       "\nvideo:\n",
       video,
     );*/
 
-    if (stockPlayer) {
+    if (player) {
       // Replace with config.player
-      console.info("Replace player with", config.player);
 
       // FIXME: Как то обработать blob
-      /* [default, CVP] the players supprted blob link that they don't create a new video element */
+      /* [default, CVP]: the players supprt 'blob' links because it's useing exist video element */
       if (isBlobSource(video.src) && config.player !== "default") {
         confirm(
           "Detected Blob source. Use a 'default' player or keep the built-in one?",
-        ) && players.get("default")!(video, stockPlayer, {});
+        ) && playerMap.get("default")!(video, player, {});
         return;
       }
 
       try {
-        players.get(config.player)!(video, stockPlayer, {});
+        playerMap.get(config.player)!(video, player, {});
       } catch {
         alert(`Can't get or launch the player ${config.player}`);
         throw new Error(`Can't get or launch the player ${config.player}`);
