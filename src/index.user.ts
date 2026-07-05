@@ -119,16 +119,15 @@ async function replaceVideoPlayer() {
       try {
         const maxAttempts = 5;
         const delayMs = 200;
+        let newPlayer = playerMap.get(config.player);
 
         for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-          try {
-            playerMap.get(config.player)!(video, player, {});
-            break; // Success
-          } catch (e) {
-            console.error(e);
-            if (attempt < maxAttempts) {
-              await delay(delayMs);
-            }
+          if (newPlayer instanceof Function) {
+            newPlayer(video, player, {});
+            break;
+          } else {
+            await delay(delayMs);
+            newPlayer = playerMap.get(config.player);
           }
         }
       } catch {
